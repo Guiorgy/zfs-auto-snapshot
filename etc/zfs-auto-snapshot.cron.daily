@@ -1,8 +1,8 @@
 #!/bin/sh
 
-PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Only call zfs-auto-snapshot if it's available
-which zfs-auto-snapshot > /dev/null || exit 0
+command -v zfs-auto-snapshot >/dev/null 2>&1 || exit 0
 
 exec zfs-auto-snapshot --quiet --syslog --changed --label=daily --keep=31 //
