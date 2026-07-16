@@ -19,9 +19,6 @@ set to \fBfalse\fR.  This option reverses the behavior and requires
 \fB\-d\fR, \fB\-\-debug\fR
 Print debugging messages.
 .TP
-\fB\-c\fR, \fB\-\-changed\fR
-Only perform the snapshot if data has changed
-.TP
 \fB\-e\fR, \fB\-\-event\fR=\fIEVENT\fR
 Set the com.sun:auto\-snapshot\-desc property to EVENT.
 .TP
@@ -45,6 +42,9 @@ LAB is usually 'hourly', 'daily', or 'monthly'.
 .TP
 \fB\-m\fR, \fB\-\-min\-size\fR=\fIMIN\fR
 MIN is minimum KB written since last snapshot. Defaults to 0.
+.TP
+\fB\-c\fR, \fB\-\-changed\fR
+Only perform the snapshot if data has changed.
 .TP
 \fB\-p\fR, \fB\-\-prefix\fR=\fIPRE\fR
 PRE is 'zfs\-auto\-snap' by default.

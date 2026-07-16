@@ -61,7 +61,6 @@ print_usage ()
 {
 	echo "Usage: $0 [options] [-l label] <'//' | name [name...]>
   --default-exclude  Exclude datasets if com.sun:auto-snapshot is unset.
-  -c, --changed      Snap only if data written > 0.
   -d, --debug        Print debugging messages.
   -e, --event=EVENT  Set the com.sun:auto-snapshot-desc property to EVENT.
       --fast         Use a faster zfs list invocation.
@@ -70,8 +69,9 @@ print_usage ()
   -h, --help         Print this usage message.
   -k, --keep=NUM     Keep NUM recent snapshots and destroy older snapshots.
   -l, --label=LAB    LAB is usually 'hourly', 'daily', or 'monthly'.
-  -m, --min-size=MIN MIN KB written size last snapshot. Defaults to 0kb,
+  -m, --min-size=MIN MIN KB written since last snapshot. Defaults to 0KB,
                      will ALWAYS snapshot.
+  -c, --changed      Snap only if data written > 0.
   -p, --prefix=PRE   PRE is 'zfs-auto-snap' by default.
       --local-tz     Use system's local timezone instead of UTC in snapshot
                      names.
@@ -278,10 +278,6 @@ eval set -- "$GETOPT"
 while [ "$#" -gt '0' ]
 do
 	case "$1" in
-		(-c|--changed)
-			opt_changed=1
-			shift 1
-			;;
 		(-d|--debug)
 			opt_debug='1'
 			opt_quiet=''
@@ -351,6 +347,10 @@ do
 			fi
 			opt_min_size="$2"
 			shift 2
+			;;
+		(-c|--changed)
+			opt_changed=1
+			shift 1
 			;;
 		(-p|--prefix)
 			opt_prefix="$2"
