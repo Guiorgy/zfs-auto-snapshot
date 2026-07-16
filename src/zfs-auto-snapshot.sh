@@ -2,7 +2,9 @@
 
 # zfs-auto-snapshot for Linux
 # Automatically create, rotate, and destroy periodic ZFS snapshots.
+#
 # Copyright 2011 Darik Horn <dajhorn@vanadac.com>
+# Copyright 2024 Guiorgy
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
