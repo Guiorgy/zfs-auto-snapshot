@@ -1,0 +1,68 @@
+# pip install pre-commit
+# pre-commit install
+# pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-shebang-scripts-are-executable
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      - id: check-docker # shellcheck and shfmt hooks require Docker
+        name: check if Docker is running
+        language: unsupported
+        entry: |
+          python -c "
+          import subprocess, sys
+          try:
+              subprocess.run(['docker', 'info'], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+          except (subprocess.CalledProcessError, FileNotFoundError):
+              print('Docker is not running or not installed')
+              print('Please start the Docker Desktop/Daemon to run pre-commit hooks')
+              sys.exit(1)
+          "
+        types: [shell]
+        require_serial: true
+        fail_fast: true
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.14.1-1
+    hooks:
+      - id: shfmt-docker
+        args: [
+            "--language-dialect", "posix",
+            "--write",
+            "--simplify",
+            "--indent", "0", # tabs
+            "--binary-next-line",
+            "--case-indent",
+#            "--block-next-line",
+        ]
+        fail_fast: true
+
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.11.0
+    hooks:
+      - id: shellcheck
+        args: [
+            "--shell=sh",
+            "--severity=style",
+            "--format=tty",
+            "--color=always",
+            "--extended-analysis=true",
+            "--norc",
+            "-o", "add-default-case",
+            "-o", "avoid-negated-conditions",
+            "-o", "avoid-nullary-conditions",
+            "-o", "check-extra-masked-returns",
+            "-o", "check-set-e-suppressed",
+            "-o", "check-unassigned-uppercase",
+            "-o", "deprecate-which",
+            "-o", "quote-safe-variables",
+            "-o", "useless-use-of-cat",
+        ]
+        fail_fast: true

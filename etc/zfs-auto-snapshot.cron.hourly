@@ -9,9 +9,9 @@ set -- zfs-auto-snapshot --quiet --syslog --changed --label=hourly --keep=24 //
 
 LOCKFILE='/run/zfs-auto-snapshot.lock'
 if command -v flock >/dev/null 2>&1; then
-    set -- flock -n "$LOCKFILE" "$@"
+	set -- flock -n "$LOCKFILE" "$@"
 elif command -v lockf >/dev/null 2>&1; then
-    set -- lockf -t 0 "$LOCKFILE" "$@"
+	set -- lockf -t 0 "$LOCKFILE" "$@"
 fi
 
 exec "$@"
